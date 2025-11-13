@@ -18,7 +18,6 @@
   - [评分细则](#14)
 - [负责助教](#15)
 - [Special Thanks](#16)
-- [Q&A](#17)
 
 
 <a name="1"></a>
@@ -54,7 +53,7 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 ```plain
 ├── docs/
 ├── src/
-│   ├── utils
+│   ├── utils/
 │   │   └── Error.cpp
 │   ├── Basic.cpp
 │   ├── Expression.cpp
@@ -89,10 +88,11 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 <a name="7"></a>
 #### 解释器实现说明
 
-**对于指令的介绍和要求详见 `Minimal-BASIC-Interpreter-2023.pdf`** 。
+**对于指令的介绍和要求详见 `docs/Minimal-BASIC-Interpreter-2023.pdf`** 。
 **项目的整体框架详见 [项目文档](docs/Framework.md)**。
 对于各个文件的具体职责和要求详见`docs/`下的各个模块文档。
 对于bonus的部分详见`docs/Bonus.md`。
+你需要完成`include/`和`src/`下的头文件和源文件中的 TODO 部分。
 
 <a name="8"></a>
 #### 实现要求
@@ -119,9 +119,9 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 
 #### 评测数据
 
-`test/` 文件夹中的 100 个数据点，与oj中测评的数据点完全一致。
+`test/` 文件夹中的 100 个数据点，与OJ中测评的数据点完全一致。
 
-对于 bonus 中 Scope 嵌入部分另有 `test/scoped/` 文件夹中 16 个数据点，也与OJ 上一致。
+对于 bonus 中 Scope 嵌入部分另有 `test/scoped/` 文件夹中 16 个数据点，也与OJ上一致。
 
 #### 评测原理
 
@@ -135,7 +135,7 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 
 之后的步骤中我们认为你完成了此操作。
 
-`Basic-Demo-64bit ` 是标程的可执行文件，你可以用命令行输入 `./Basic-Demo-64bit` 来运行它，看看 BASIC 解释器是如何工作的。
+`Basic-Demo-64bit` 是标程的可执行文件，你可以用命令行输入 `./Basic-Demo-64bit` 来运行它，看看 BASIC 解释器是如何工作的。
 
 【注：
 
@@ -154,7 +154,7 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 
 **注意，你的可执行文件的名字必须为 `code`（如果你修改了CMake，请务必保证可执行文件名仍为 `code` ）。**
 
-测评文件内容默认是 Test 文件夹下提供的文件。这些文件和 oj 中测评的数据点是相同的。在这些测试点下，你的程序需要输出与标程相同的结果。
+测评文件内容默认是 Test 文件夹下提供的文件。这些文件和 OJ 中测评的数据点是相同的。在这些测试点下，你的程序需要输出与标程相同的结果。
 
 <a name="17"></a >
 ### 评分细则
@@ -164,8 +164,6 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 - Code Review 20%
 - 使用智能指针 1% (bonus)
 - 实现 Scope 嵌入 2% (bonus)
-
-总得分大于 105% 按 105% 计。
 
 <a name="18"></a >
 ## 负责助教
@@ -178,18 +176,3 @@ BASIC 是一门**解释性**编程语言，本次大作业要求你用 C++ 实�
 感谢 22' ACM HenryHe0123, 22' ACM Irfnfnkemed 提供的文档 `Minimal-BASIC-Interpreter-2023.pdf` 。
 
 感谢 23' ACM [@李林璋](https://github.com/Seven-Streams)，[@王思瀚](https://github.com/leowang000)，[@李方可](https://github.com/algebraic-arima) 提供的代码实现参考。
-
-<a name="20"></a >
-## Q&A
-
-### 数字范围是多少？
-int范围，不支持浮点数。
-
-### "010 INPUT 10"语句，在LIST指令时行号是否保持前导零？
-要求保持原有格式。无需对行号格式做进一步修改。
-
-### LET 后面的var = exp之间不加空格是合法的吗？
-这类情况属于未定义行为，事实上手册上要求加空格的地方没有加空格一律视作未定义行为。
-
-### 变量命名规范？
-必须由大小写字母开头，字母与数字组成，且不能是关键字（REM，LET，PRINT，INPUT，END，GOTO，IF，THEN，RUN，LIST，CLEAR，QUIT，HELP）。出现其他字符是未定义行为。变量名包含关键字也被视为是未定义行为。
