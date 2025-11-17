@@ -31,6 +31,7 @@ class Program {
   VarState vars_;
   int programCounter_;
   bool programEnd_;
+  bool jumped_;
 
   void resetAfterRun() noexcept;
 };

@@ -4,6 +4,7 @@
 Program::Program() {
     programCounter_ = -1;
     programEnd_ = 0;
+    jumped_ = 0;
 }
 
 void Program::addStmt(int line, Statement* stmt) {
@@ -23,6 +24,7 @@ void Program::clear() {
     vars_.clear();
     programCounter_ = -1;
     programEnd_ = 0;
+    jumped_ = 0;
 }
 
 void Program::execute(Statement *stmt) {
@@ -35,20 +37,30 @@ int Program::getPC() const noexcept {
 
 void Program::changePC(int line) {
     programCounter_ = line;
+    jumped_ = 1;
 }
 
 void Program::programEnd() {
     programEnd_ = 1;
 }
 
+bool Program::hasLine(int line) const {
+    return recorder_.hasLine(line);
+}
+
 void Program::resetAfterRun() noexcept {
     programCounter_ = -1;
     programEnd_ = 0;
+    jumped_ = 0;
 }
 
 void Program::run() {
     while (!programEnd_) {
         int toLine = recorder_.nextLine(programCounter_);
+        if (jumped_) {
+            jumped_ = 0;
+            toLine = programCounter_;
+        }
         if (toLine == RECORDER_END_LINE) {
             programEnd_ = 1;
         }

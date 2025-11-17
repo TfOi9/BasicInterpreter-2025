@@ -11,14 +11,22 @@
 #include "../include/utils/Error.hpp"
 
 int stringToInteger(std::string str) {
-    std::istringstream stream(str);
-    int value;
-    stream >> value;
-    if (!stream.eof()) stream >> std::ws;
-    if (stream.fail() || !stream.eof()) {
-        BasicError("INVALID NUMBER");
+    int val;
+    try {
+        size_t pos;
+        val = std::stoi(str, &pos);
+        // 检查是否整个字符串都被解析
+        if (pos != str.length()) {
+            throw BasicError("INT LITERAL OVERFLOW");
+        }
     }
-    return value;
+    catch (const std::out_of_range&) {
+        throw BasicError("INT LITERAL OVERFLOW");
+    }
+    catch (const std::invalid_argument&) {
+        throw BasicError("SYNTAX ERROR");
+    }
+    return val;
 }
 
 Statement::Statement(std::string source) : source_(std::move(source)) {}
