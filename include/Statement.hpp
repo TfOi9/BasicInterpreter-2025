@@ -55,3 +55,13 @@ class InputStatement : public Statement {
  private:
   std::string var_;
 };
+
+class GotoStatement : public Statement {
+ public:
+  GotoStatement(std::string source);
+  ~GotoStatement() override;
+  void execute(VarState& state, Program& program) const override;
+  void set(int toLine);
+ private:
+  int toLine_;
+};

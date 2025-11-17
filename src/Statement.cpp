@@ -108,3 +108,20 @@ void InputStatement::execute(VarState &state, Program &program) const {
         }
     }
 }
+
+GotoStatement::GotoStatement(std::string source) : Statement(source) {}
+
+GotoStatement::~GotoStatement() {}
+
+void GotoStatement::set(int toLine) {
+    toLine_ = toLine;
+}
+
+void GotoStatement::execute(VarState& state, Program& program) const {
+    if (program.hasLine(toLine_)) {
+        program.changePC(toLine_);
+    }
+    else {
+        BasicError("LINE NUMBER ERROR");
+    }
+}

@@ -24,6 +24,8 @@ class Program {
   void changePC(int line);
   void programEnd();
 
+  bool hasLine(int line) const;
+
  private:
   Recorder recorder_;
   VarState vars_;

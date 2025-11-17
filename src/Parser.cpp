@@ -149,6 +149,10 @@ Statement* Parser::parseGoto(TokenStream& tokens,
 
   int targetLine = parseLiteral(lineToken);
   // TODO: create a corresponding stmt and return it.
+  GotoStatement* stmt = new GotoStatement(originLine);
+  stmt->set(targetLine);
+  Statement* ret = stmt;
+  return ret;
 }
 
 Statement* Parser::parseIf(TokenStream& tokens,
