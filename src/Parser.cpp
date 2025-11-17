@@ -1,5 +1,6 @@
 #include "../include/Parser.hpp"
 
+#include <new>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -215,11 +216,15 @@ Statement* Parser::parseRem(TokenStream& tokens,
     throw BasicError("SYNTAX ERROR");
   }
   // TODO: create a corresponding stmt and return it.
+  Statement* stmt = new RemStatement(originLine);
+  return stmt;
 }
 
 Statement* Parser::parseEnd(TokenStream& tokens,
                             const std::string& originLine) const {
   // TODO: create a corresponding stmt and return it.
+  Statement* stmt = new EndStatement(originLine);
+  return stmt;
 }
 
 Expression* Parser::parseExpression(TokenStream& tokens) const {

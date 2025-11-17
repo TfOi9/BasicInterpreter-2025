@@ -78,3 +78,17 @@ class IfStatement : public Statement {
   Expression* expr_;
   int toLine_;
 };
+
+class RemStatement : public Statement {
+ public:
+  RemStatement(std::string source);
+  ~RemStatement() override;
+  void execute(VarState& state, Program& program) const override;
+};
+
+class EndStatement : public Statement {
+ public:
+  EndStatement(std::string source);
+  ~EndStatement() override;
+  void execute(VarState& state, Program& program) const override;
+};

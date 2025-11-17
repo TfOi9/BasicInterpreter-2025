@@ -177,3 +177,17 @@ void IfStatement::execute(VarState &state, Program &program) const {
         }
     }
 }
+
+RemStatement::RemStatement(std::string source) : Statement(source) {}
+
+RemStatement::~RemStatement() {}
+
+void RemStatement::execute(VarState &state, Program &program) const {}
+
+EndStatement::EndStatement(std::string source) : Statement(source) {}
+
+EndStatement::~EndStatement() {}
+
+void EndStatement::execute(VarState &state, Program &program) const {
+    program.programEnd();
+}
