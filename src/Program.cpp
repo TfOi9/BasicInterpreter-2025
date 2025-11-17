@@ -1,6 +1,10 @@
 #include "../include/Program.hpp"
 
 // TODO: Imply interfaces declared in the Program.hpp.
+Program::Program() {
+    programCounter_ = -1;
+    programEnd_ = 0;
+}
 
 void Program::addStmt(int line, Statement* stmt) {
     recorder_.add(line, stmt);
@@ -38,14 +42,11 @@ void Program::programEnd() {
 }
 
 void Program::resetAfterRun() noexcept {
-    vars_.clear();
     programCounter_ = -1;
     programEnd_ = 0;
 }
 
 void Program::run() {
-    programCounter_ = -1;
-    programEnd_ = 0;
     while (!programEnd_) {
         int toLine = recorder_.nextLine(programCounter_);
         if (toLine == RECORDER_END_LINE) {
@@ -57,4 +58,5 @@ void Program::run() {
             stmt->execute(vars_, *this);
         }
     }
+    resetAfterRun();
 }
