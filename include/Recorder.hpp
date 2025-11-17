@@ -1,11 +1,13 @@
 #pragma once
 
+#include <iostream>
 #include <map>
 #include <memory>
 #include <vector>
 
 #include "Statement.hpp"
 
+constexpr int RECORDER_END_LINE = 2000000000;
 class Recorder {
  public:
   ~Recorder();
@@ -20,4 +22,5 @@ class Recorder {
 
  private:
   // TODO.
+  std::map<int, Statement*> lines;
 };
