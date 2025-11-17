@@ -1,8 +1,8 @@
-#include "VarState.hpp"
+#include "../include/VarState.hpp"
 
 #include <algorithm>
 
-#include "utils/Error.hpp"
+#include "../include/utils/Error.hpp"
 
 void VarState::setValue(const std::string& name, int value) {
   values_[name] = value;

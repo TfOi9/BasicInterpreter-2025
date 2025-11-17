@@ -1,11 +1,11 @@
-#include "Lexer.hpp"
+#include "../include/Lexer.hpp"
 
 #include <limits>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include "utils/Error.hpp"
+#include "../include/utils/Error.hpp"
 
 const std::unordered_map<std::string, TokenType> TABLE = {
     {"LET", TokenType::LET},     {"PRINT", TokenType::PRINT},

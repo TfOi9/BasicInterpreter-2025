@@ -1,16 +1,69 @@
-#include "Statement.hpp"
+#include "../include/Statement.hpp"
 
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <string>
 #include <utility>
 
-#include "Program.hpp"
-#include "VarState.hpp"
-#include "utils/Error.hpp"
+#include "../include/Program.hpp"
+#include "../include/VarState.hpp"
+#include "../include/utils/Error.hpp"
 
 Statement::Statement(std::string source) : source_(std::move(source)) {}
 
 const std::string& Statement::text() const noexcept { return source_; }
 
 // TODO: Imply interfaces declared in the Statement.hpp.
+LetStatement::LetStatement(std::string source) : Statement(source), exp_(nullptr) {}
+
+LetStatement::~LetStatement() {
+    if (exp_ != nullptr) {
+        delete exp_;
+    }
+}
+
+void LetStatement::set(const std::string& var, Expression* exp) {
+    var_ = var;
+    if (exp_ != nullptr) {
+        delete exp_;
+    }
+    exp_ = exp;
+}
+
+void LetStatement::execute(VarState& state, Program& program) const {
+    int val;
+    try {
+        val = exp_->evaluate(state);
+    }
+    catch (...) {
+        val = 0;
+    }
+    state.setValue(var_, val);
+}
+
+PrintStatement::PrintStatement(std::string source) : Statement(source), exp_(nullptr) {}
+
+PrintStatement::~PrintStatement() {
+    if (exp_ != nullptr) {
+        delete exp_;
+    }
+}
+
+void PrintStatement::set(Expression* exp) {
+    if (exp_ != nullptr) {
+        delete exp_;
+    }
+    exp_ = exp;
+}
+
+void PrintStatement::execute(VarState &state, Program &program) const {
+    int val;
+    try {
+        val = exp_->evaluate(state);
+    }
+    catch (...) {
+        throw;
+    }
+    std::cout << val << std::endl;
+}

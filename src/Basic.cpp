@@ -2,11 +2,11 @@
 #include <memory>
 #include <string>
 
-#include "Lexer.hpp"
-#include "Parser.hpp"
-#include "Program.hpp"
-#include "Token.hpp"
-#include "utils/Error.hpp"
+#include "../include/Lexer.hpp"
+#include "../include/Parser.hpp"
+#include "../include/Program.hpp"
+#include "../include/Token.hpp"
+#include "../include/utils/Error.hpp"
 
 int main() {
   Lexer lexer;

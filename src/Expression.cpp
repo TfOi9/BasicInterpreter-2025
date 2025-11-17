@@ -1,7 +1,7 @@
-#include "Expression.hpp"
+#include "../include/Expression.hpp"
 
-#include "VarState.hpp"
-#include "utils/Error.hpp"
+#include "../include/VarState.hpp"
+#include "../include/utils/Error.hpp"
 
 ConstExpression::ConstExpression(int value) : value_(value) {}
 

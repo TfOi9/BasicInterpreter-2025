@@ -1,4 +1,4 @@
-#include "Token.hpp"
+#include "../include/Token.hpp"
 
 TokenStream::TokenStream(std::vector<Token>&& tokens)
     : tokens_(std::move(tokens)), cursor_(0) {}

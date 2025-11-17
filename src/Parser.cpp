@@ -1,13 +1,13 @@
-#include "Parser.hpp"
+#include "../include/Parser.hpp"
 
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include "Expression.hpp"
-#include "Statement.hpp"
-#include "utils/Error.hpp"
+#include "../include/Expression.hpp"
+#include "../include/Statement.hpp"
+#include "../include/utils/Error.hpp"
 
 ParsedLine::ParsedLine() { statement_ = nullptr; }
 
@@ -101,12 +101,20 @@ Statement* Parser::parseLet(TokenStream& tokens,
   auto expr = parseExpression(tokens);
 
   // TODO: create a corresponding stmt and return it.
+  LetStatement* stmt = new LetStatement(originLine);
+  stmt->set(varName, expr);
+  Statement* ret = stmt;
+  return ret;
 }
 
 Statement* Parser::parsePrint(TokenStream& tokens,
                               const std::string& originLine) const {
   auto expr = parseExpression(tokens);
   // TODO: create a corresponding stmt and return it.
+  PrintStatement* stmt = new PrintStatement(originLine);
+  stmt->set(expr);
+  Statement* ret = stmt;
+  return ret;
 }
 
 Statement* Parser::parseInput(TokenStream& tokens,
