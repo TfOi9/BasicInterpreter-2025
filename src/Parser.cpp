@@ -130,6 +130,10 @@ Statement* Parser::parseInput(TokenStream& tokens,
 
   std::string varName = varToken->text;
   // TODO: create a corresponding stmt and return it.
+  InputStatement* stmt = new InputStatement(originLine);
+  stmt->set(varName);
+  Statement* ret = stmt;
+  return ret;
 }
 
 Statement* Parser::parseGoto(TokenStream& tokens,

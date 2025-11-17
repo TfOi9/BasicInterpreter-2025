@@ -23,6 +23,8 @@ class Statement {
 
 // TODO: Other statement types derived from Statement, e.g., GOTOStatement,
 // LetStatement, etc.
+int stringToInteger(std::string str);
+
 class LetStatement : public Statement {
  public:
   LetStatement(std::string source);
@@ -42,4 +44,14 @@ class PrintStatement : public Statement {
   void set(Expression* exp);
  private:
   Expression* exp_;
+};
+
+class InputStatement : public Statement {
+ public:
+  InputStatement(std::string source);
+  ~InputStatement() override;
+  void execute(VarState& state, Program& program) const override;
+  void set(const std::string& var);
+ private:
+  std::string var_;
 };

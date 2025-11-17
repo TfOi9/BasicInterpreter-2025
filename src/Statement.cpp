@@ -10,6 +10,17 @@
 #include "../include/VarState.hpp"
 #include "../include/utils/Error.hpp"
 
+int stringToInteger(std::string str) {
+    std::istringstream stream(str);
+    int value;
+    stream >> value;
+    if (!stream.eof()) stream >> std::ws;
+    if (stream.fail() || !stream.eof()) {
+        BasicError("INVALID NUMBER");
+    }
+    return value;
+}
+
 Statement::Statement(std::string source) : source_(std::move(source)) {}
 
 const std::string& Statement::text() const noexcept { return source_; }
@@ -66,4 +77,34 @@ void PrintStatement::execute(VarState &state, Program &program) const {
         throw;
     }
     std::cout << val << std::endl;
+}
+
+InputStatement::InputStatement(std::string source) : Statement(source) {}
+
+InputStatement::~InputStatement() {}
+
+void InputStatement::set(const std::string& var) {
+    var_ = var;
+}
+
+void InputStatement::execute(VarState &state, Program &program) const {
+    std::string str;
+    while (1) {
+        int val = 0;
+        bool valid = 1;
+        std::cout << " ? ";
+        std::getline(std::cin, str);
+        try {
+            val = stringToInteger(str);
+        }
+        catch (...) {
+            valid = 0;
+            str.clear();
+            std::cout << "INVALID NUMBER" << std::endl;
+        }
+        if (valid) {
+            state.setValue(var_, val);
+            break;
+        }
+    }
 }
