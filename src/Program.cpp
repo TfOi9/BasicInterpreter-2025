@@ -1,4 +1,5 @@
 #include "../include/Program.hpp"
+#include "../include/utils/Error.hpp"
 
 // TODO: Imply interfaces declared in the Program.hpp.
 Program::Program() {
@@ -67,7 +68,12 @@ void Program::run() {
         else {
             programCounter_ = toLine;
             const Statement* stmt = recorder_.get(programCounter_);
-            stmt->execute(vars_, *this);
+            try {
+                stmt->execute(vars_, *this);
+            }
+            catch (const BasicError& e) {
+                std::cout << e.message() << "\n";
+            }
         }
     }
     resetAfterRun();

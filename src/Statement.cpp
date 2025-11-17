@@ -57,6 +57,7 @@ void LetStatement::execute(VarState& state, Program& program) const {
     }
     catch (...) {
         val = 0;
+        throw;
     }
     state.setValue(var_, val);
 }
@@ -130,7 +131,7 @@ void GotoStatement::execute(VarState& state, Program& program) const {
         program.changePC(toLine_);
     }
     else {
-        BasicError("LINE NUMBER ERROR");
+        throw BasicError("LINE NUMBER ERROR");
     }
 }
 
