@@ -125,3 +125,55 @@ void GotoStatement::execute(VarState& state, Program& program) const {
         BasicError("LINE NUMBER ERROR");
     }
 }
+
+IfStatement::IfStatement(std::string source) : Statement(source), expl_(nullptr), expr_(nullptr) {}
+
+IfStatement::~IfStatement() {
+    if (expl_ != nullptr) {
+        delete expl_;
+    }
+    if (expr_ != nullptr) {
+        delete expr_;
+    }
+}
+
+void IfStatement::set(Expression *expl, char op, Expression *expr, int toLine) {
+    if (expl_ != nullptr) {
+        delete expl_;
+    }
+    if (expr_ != nullptr) {
+        delete expr_;
+    }
+    expl_ = expl;
+    expr_ = expr;
+    op_ = op;
+    toLine_ = toLine;
+}
+
+void IfStatement::execute(VarState &state, Program &program) const {
+    int vall, valr;
+    vall = expl_->evaluate(state);
+    valr = expr_->evaluate(state);
+    bool satisfied;
+    switch (op_) {
+        case '<':
+            satisfied =  vall < valr;
+            break;
+        case '>':
+            satisfied = vall > valr;
+            break;
+        case '=':
+            satisfied = vall == valr;
+            break;
+        default:
+            satisfied = 0;
+    }
+    if (satisfied) {
+        if (program.hasLine(toLine_)) {
+            program.changePC(toLine_);
+        }
+        else {
+            BasicError("LINE NUMBER ERROR");
+        }
+    }
+}

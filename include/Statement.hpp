@@ -65,3 +65,16 @@ class GotoStatement : public Statement {
  private:
   int toLine_;
 };
+
+class IfStatement : public Statement {
+ public:
+  IfStatement(std::string source);
+  ~IfStatement() override;
+  void execute(VarState& state, Program& program) const override;
+  void set(Expression* expl, char op, Expression* expr, int toLine);
+ private:
+  Expression* expl_;
+  char op_;
+  Expression* expr_;
+  int toLine_;
+};

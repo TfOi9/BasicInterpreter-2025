@@ -202,6 +202,10 @@ Statement* Parser::parseIf(TokenStream& tokens,
   int targetLine = parseLiteral(lineToken);
 
   // TODO: create a corresponding stmt and return it.
+  IfStatement* stmt = new IfStatement(originLine);
+  stmt->set(leftExpr, op, rightExpr, targetLine);
+  Statement* ret = stmt;
+  return ret;
 }
 
 Statement* Parser::parseRem(TokenStream& tokens,
