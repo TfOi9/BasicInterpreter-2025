@@ -227,6 +227,20 @@ Statement* Parser::parseEnd(TokenStream& tokens,
   return stmt;
 }
 
+Statement* Parser::parseIndent(TokenStream& tokens,
+                            const std::string& originLine) const {
+  // TODO: create a corresponding stmt and return it.
+  Statement* stmt = new IndentStatement(originLine);
+  return stmt;
+}
+
+Statement* Parser::parseDedent(TokenStream& tokens,
+                            const std::string& originLine) const {
+  // TODO: create a corresponding stmt and return it.
+  Statement* stmt = new DedentStatement(originLine);
+  return stmt;
+}
+
 Expression* Parser::parseExpression(TokenStream& tokens) const {
   return parseExpression(tokens, 0);
 }

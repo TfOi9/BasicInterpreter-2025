@@ -42,6 +42,8 @@ class Parser {
   Statement* parseIf(TokenStream& tokens, const std::string& originLine) const;
   Statement* parseRem(TokenStream& tokens, const std::string& originLine) const;
   Statement* parseEnd(TokenStream& tokens, const std::string& originLine) const;
+  Statement* parseIndent(TokenStream& tokens, const std::string& originLine) const;
+  Statement* parseDedent(TokenStream& tokens, const std::string& originLine) const;
 
   Expression* parseExpression(TokenStream& tokens) const;
   Expression* parseExpression(TokenStream& tokens, int precedence) const;

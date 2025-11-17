@@ -200,3 +200,19 @@ EndStatement::~EndStatement() {}
 void EndStatement::execute(VarState &state, Program &program) const {
     program.programEnd();
 }
+
+IndentStatement::IndentStatement(std::string source) : Statement(source) {}
+
+IndentStatement::~IndentStatement() {}
+
+void IndentStatement::execute(VarState &state, Program &program) const {
+    // TODO
+}
+
+DedentStatement::DedentStatement(std::string source) : Statement(source) {}
+
+DedentStatement::~DedentStatement() {}
+
+void DedentStatement::execute(VarState &state, Program &program) const {
+    // TODO
+}
