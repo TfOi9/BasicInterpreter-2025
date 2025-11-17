@@ -1,1 +1,60 @@
+#include "../include/Program.hpp"
+
 // TODO: Imply interfaces declared in the Program.hpp.
+
+void Program::addStmt(int line, Statement* stmt) {
+    recorder_.add(line, stmt);
+}
+
+void Program::removeStmt(int line) {
+    recorder_.remove(line);
+}
+
+void Program::list() const {
+    recorder_.printLines();
+}
+
+void Program::clear() {
+    recorder_.clear();
+    vars_.clear();
+    programCounter_ = -1;
+    programEnd_ = 0;
+}
+
+void Program::execute(Statement *stmt) {
+    stmt->execute(vars_, *this);
+}
+
+int Program::getPC() const noexcept {
+    return programCounter_;
+}
+
+void Program::changePC(int line) {
+    programCounter_ = line;
+}
+
+void Program::programEnd() {
+    programEnd_ = 1;
+}
+
+void Program::resetAfterRun() noexcept {
+    vars_.clear();
+    programCounter_ = -1;
+    programEnd_ = 0;
+}
+
+void Program::run() {
+    programCounter_ = -1;
+    programEnd_ = 0;
+    while (!programEnd_) {
+        int toLine = recorder_.nextLine(programCounter_);
+        if (toLine == RECORDER_END_LINE) {
+            programEnd_ = 1;
+        }
+        else {
+            programCounter_ = toLine;
+            const Statement* stmt = recorder_.get(programCounter_);
+            stmt->execute(vars_, *this);
+        }
+    }
+}
