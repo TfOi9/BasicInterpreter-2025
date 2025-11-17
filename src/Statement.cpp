@@ -206,7 +206,7 @@ IndentStatement::IndentStatement(std::string source) : Statement(source) {}
 IndentStatement::~IndentStatement() {}
 
 void IndentStatement::execute(VarState &state, Program &program) const {
-    // TODO
+    state.indent();
 }
 
 DedentStatement::DedentStatement(std::string source) : Statement(source) {}
@@ -214,5 +214,5 @@ DedentStatement::DedentStatement(std::string source) : Statement(source) {}
 DedentStatement::~DedentStatement() {}
 
 void DedentStatement::execute(VarState &state, Program &program) const {
-    // TODO
+    state.dedent();
 }

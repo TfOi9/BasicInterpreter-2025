@@ -73,6 +73,9 @@ void Program::run() {
             }
             catch (const BasicError& e) {
                 std::cout << e.message() << "\n";
+                if (e.message() == "SCOPE UNDERFLOW") {
+                    programEnd_ = 1;
+                }
             }
         }
     }

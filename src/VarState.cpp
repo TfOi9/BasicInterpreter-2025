@@ -1,5 +1,6 @@
 #include "../include/VarState.hpp"
 
+#include <iostream>
 #include <algorithm>
 
 #include "../include/utils/Error.hpp"
@@ -17,6 +18,7 @@ void VarState::indent() {
 void VarState::dedent() {
   if (dep) {
     values_.pop_back();
+    dep--;
   }
   else {
     throw BasicError("SCOPE UNDERFLOW");
