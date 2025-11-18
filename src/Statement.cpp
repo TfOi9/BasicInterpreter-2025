@@ -103,6 +103,10 @@ void InputStatement::execute(VarState &state, Program &program) const {
         bool valid = 1;
         std::cout << " ? ";
         std::getline(std::cin, str);
+        if (str.back() == '\r') {
+            str.pop_back();
+        }
+        std::cerr << "**" << str << "**" << std::endl;
         try {
             val = stringToInteger(str);
         }
