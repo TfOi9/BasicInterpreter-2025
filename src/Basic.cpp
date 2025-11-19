@@ -43,14 +43,14 @@ int main() {
           ParsedLine pline = parser.parseLine(stream, line);
           if (pline.getLine().has_value()) {
             if (pline.getStatement() != nullptr) {
-              program.addStmt(pline.getLine().value(), pline.fetchStatement());
+              program.addStmt(pline.getLine().value(), std::move(pline.fetchStatement()));
             }
             else {
               program.removeStmt(pline.getLine().value());
             }
           }
           else {
-            program.execute(pline.getStatement());
+            program.execute(std::move(pline.getStatement()));
           }
       }
     } catch (const BasicError& e) {

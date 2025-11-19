@@ -30,10 +30,10 @@ class LetStatement : public Statement {
   LetStatement(std::string source);
   ~LetStatement() override;
   void execute(VarState& state, Program& program) const override;
-  void set(const std::string& var, Expression* exp);
+  void set(const std::string& var, std::unique_ptr<Expression>& exp);
  private:
   std::string var_;
-  Expression* exp_;
+  std::unique_ptr<Expression> exp_;
 };
 
 class PrintStatement : public Statement {
@@ -41,9 +41,9 @@ class PrintStatement : public Statement {
   PrintStatement(std::string source);
   ~PrintStatement() override;
   void execute(VarState& state, Program& program) const override;
-  void set(Expression* exp);
+  void set(std::unique_ptr<Expression>& exp);
  private:
-  Expression* exp_;
+  std::unique_ptr<Expression> exp_;
 };
 
 class InputStatement : public Statement {
@@ -71,11 +71,11 @@ class IfStatement : public Statement {
   IfStatement(std::string source);
   ~IfStatement() override;
   void execute(VarState& state, Program& program) const override;
-  void set(Expression* expl, char op, Expression* expr, int toLine);
+  void set(std::unique_ptr<Expression>& expl, char op, std::unique_ptr<Expression>& expr, int toLine);
  private:
-  Expression* expl_;
+  std::unique_ptr<Expression> expl_;
   char op_;
-  Expression* expr_;
+  std::unique_ptr<Expression> expr_;
   int toLine_;
 };
 

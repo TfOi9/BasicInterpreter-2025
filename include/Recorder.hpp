@@ -12,7 +12,7 @@ class Recorder {
  public:
   ~Recorder();
 
-  void add(int line, Statement* stmt);
+  void add(int line, std::unique_ptr<Statement> stmt);
   void remove(int line);
   const Statement* get(int line) const noexcept;
   bool hasLine(int line) const noexcept;
@@ -22,5 +22,5 @@ class Recorder {
 
  private:
   // TODO.
-  std::map<int, Statement*> lines;
+  std::map<int, std::unique_ptr<Statement>> lines;
 };

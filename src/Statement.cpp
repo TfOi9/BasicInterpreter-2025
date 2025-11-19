@@ -36,18 +36,11 @@ const std::string& Statement::text() const noexcept { return source_; }
 // TODO: Imply interfaces declared in the Statement.hpp.
 LetStatement::LetStatement(std::string source) : Statement(source), exp_(nullptr) {}
 
-LetStatement::~LetStatement() {
-    if (exp_ != nullptr) {
-        delete exp_;
-    }
-}
+LetStatement::~LetStatement() = default;
 
-void LetStatement::set(const std::string& var, Expression* exp) {
+void LetStatement::set(const std::string& var, std::unique_ptr<Expression>& exp) {
     var_ = var;
-    if (exp_ != nullptr) {
-        delete exp_;
-    }
-    exp_ = exp;
+    exp_ = std::move(exp);
 }
 
 void LetStatement::execute(VarState& state, Program& program) const {
@@ -64,17 +57,10 @@ void LetStatement::execute(VarState& state, Program& program) const {
 
 PrintStatement::PrintStatement(std::string source) : Statement(source), exp_(nullptr) {}
 
-PrintStatement::~PrintStatement() {
-    if (exp_ != nullptr) {
-        delete exp_;
-    }
-}
+PrintStatement::~PrintStatement() = default;
 
-void PrintStatement::set(Expression* exp) {
-    if (exp_ != nullptr) {
-        delete exp_;
-    }
-    exp_ = exp;
+void PrintStatement::set(std::unique_ptr<Expression>& exp) {
+    exp_ = std::move(exp);
 }
 
 void PrintStatement::execute(VarState &state, Program &program) const {
@@ -140,24 +126,11 @@ void GotoStatement::execute(VarState& state, Program& program) const {
 
 IfStatement::IfStatement(std::string source) : Statement(source), expl_(nullptr), expr_(nullptr) {}
 
-IfStatement::~IfStatement() {
-    if (expl_ != nullptr) {
-        delete expl_;
-    }
-    if (expr_ != nullptr) {
-        delete expr_;
-    }
-}
+IfStatement::~IfStatement() = default;
 
-void IfStatement::set(Expression *expl, char op, Expression *expr, int toLine) {
-    if (expl_ != nullptr) {
-        delete expl_;
-    }
-    if (expr_ != nullptr) {
-        delete expr_;
-    }
-    expl_ = expl;
-    expr_ = expr;
+void IfStatement::set(std::unique_ptr<Expression>& expl, char op, std::unique_ptr<Expression>& expr, int toLine) {
+    expl_ = std::move(expl);
+    expr_ = std::move(expr);
     op_ = op;
     toLine_ = toLine;
 }

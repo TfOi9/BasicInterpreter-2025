@@ -1,24 +1,14 @@
 #include "../include/Recorder.hpp"
+#include <utility>
 
 // TODO: Imply interfaces declared in the Recorder.hpp.
 
-void Recorder::add(int line, Statement* stmt) {
-    if (lines.count(line)) {
-        if (lines[line] != nullptr) {
-            delete lines[line];
-        }
-        lines[line] = stmt;
-    }
-    else {
-        lines[line] = stmt;
-    }
+void Recorder::add(int line, std::unique_ptr<Statement> stmt) {
+    lines[line] = std::move(stmt);
 }
 
 void Recorder::remove(int line) {
     if (lines.count(line)) {
-        if (lines[line] != nullptr) {
-            delete lines[line];
-        }
         lines.erase(line);
     }
 }
@@ -26,7 +16,7 @@ void Recorder::remove(int line) {
 const Statement* Recorder::get(int line) const noexcept {
     if (lines.count(line)) {
         auto it = lines.find(line);
-        return it->second;
+        return it->second.get();
     }
     else {
         return nullptr;
@@ -38,11 +28,6 @@ bool Recorder::hasLine(int line) const noexcept {
 }
 
 void Recorder::clear() noexcept {
-    for (auto it = lines.begin(); it != lines.end(); it++) {
-        if (it->second != nullptr) {
-            delete it->second;
-        }
-    }
     lines.clear();
 }
 

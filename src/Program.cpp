@@ -8,8 +8,8 @@ Program::Program() {
     jumped_ = 0;
 }
 
-void Program::addStmt(int line, Statement* stmt) {
-    recorder_.add(line, stmt);
+void Program::addStmt(int line, std::unique_ptr<Statement> stmt) {
+    recorder_.add(line, std::move(stmt));
 }
 
 void Program::removeStmt(int line) {
@@ -28,7 +28,7 @@ void Program::clear() {
     jumped_ = 0;
 }
 
-void Program::execute(Statement *stmt) {
+void Program::execute(std::unique_ptr<Statement> stmt) {
     stmt->execute(vars_, *this);
 }
 
