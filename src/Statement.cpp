@@ -88,8 +88,10 @@ void InputStatement::execute(VarState &state, Program &program) const {
         int val = 0;
         bool valid = 1;
         std::cout << " ? ";
-        std::getline(std::cin, str);
-        if (str.back() == '\r') {
+        if (!std::getline(std::cin, str)) {
+            throw BasicError("INVALID NUMBER");
+        }
+        if (!str.empty() && str.back() == '\r') {
             str.pop_back();
         }
         try {
@@ -158,7 +160,7 @@ void IfStatement::execute(VarState &state, Program &program) const {
             program.changePC(toLine_);
         }
         else {
-            BasicError("LINE NUMBER ERROR");
+            throw BasicError("LINE NUMBER ERROR");
         }
     }
 }

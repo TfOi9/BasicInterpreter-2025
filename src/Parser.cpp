@@ -35,7 +35,11 @@ ParsedLine Parser::parseLine(TokenStream& tokens,
   const Token* firstToken = tokens.peek();
   if (firstToken && firstToken->type == TokenType::NUMBER) {
     // 解析行号
-    result.setLine(parseLiteral(firstToken));
+    int line = parseLiteral(firstToken);
+    if (line == 0) {
+      throw BasicError("LINE NUMBER ERROR");
+    }
+    result.setLine(line);
     tokens.get();  // 消费行号token
 
     // 如果只有行号，表示删除该行
@@ -250,7 +254,7 @@ Expression* Parser::parseExpression(TokenStream& tokens) const {
 
 Expression* Parser::parseExpression(TokenStream& tokens, int precedence) const {
   // 解析左操作数
-  Expression* left;
+  std::unique_ptr<Expression> left;
 
   if (tokens.empty()) {
     throw BasicError("SYNTAX ERROR");
@@ -263,12 +267,12 @@ Expression* Parser::parseExpression(TokenStream& tokens, int precedence) const {
 
   if (token->type == TokenType::NUMBER) {
     int value = parseLiteral(token);
-    left = new ConstExpression(value);
+    left = std::make_unique<ConstExpression>(value);
   } else if (token->type == TokenType::IDENTIFIER) {
-    left = new VariableExpression(token->text);
+    left = std::make_unique<VariableExpression>(token->text);
   } else if (token->type == TokenType::LEFT_PAREN) {
     ++leftParentCount;
-    left = parseExpression(tokens, 0);
+    left.reset(parseExpression(tokens, 0));
 
     if (tokens.empty() || tokens.get()->type != TokenType::RIGHT_PAREN) {
       throw BasicError("MISMATCHED PARENTHESIS");
@@ -320,11 +324,12 @@ Expression* Parser::parseExpression(TokenStream& tokens, int precedence) const {
     }
 
     // 解析右操作数，使用更高的优先级
-    auto right = parseExpression(tokens, opPrecedence + 1);
-    left = new CompoundExpression(left, op, right);
+    std::unique_ptr<Expression> right(parseExpression(tokens, opPrecedence + 1));
+    left = std::unique_ptr<Expression>(
+        new CompoundExpression(left.release(), op, right.release()));
   }
 
-  return left;
+  return left.release();
 }
 
 int Parser::getPrecedence(TokenType op) const {

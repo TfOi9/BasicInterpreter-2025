@@ -23,6 +23,9 @@ int main() {
       // TODO: The main function.
       TokenStream stream = lexer.tokenize(line);
       const Token* tok = stream.peek();
+      if (!tok) {
+        throw BasicError("SYNTAX ERROR");
+      }
       switch (tok->type) {
         case TokenType::HELP:
           // ...some help messages are supposed to be printed

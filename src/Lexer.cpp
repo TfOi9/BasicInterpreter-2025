@@ -109,8 +109,7 @@ TokenStream Lexer::tokenize(const std::string& line) const {
       continue;
     }
 
-    throw BasicError("Unexpected character '" + std::string(1, ch) +
-                     "' at column " + std::to_string(column));
+    throw BasicError("SYNTAX ERROR");
   }
   return TokenStream(std::move(tokens));
 }
